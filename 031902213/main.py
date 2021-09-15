@@ -1731,9 +1731,9 @@ class DfaFilter(object):
                 if i not in zimubiao:
                     if i in chazi:
                       #将敏感字在拆分偏旁字典中查询拆分后的部分
-                      ppform += ''.join(chazi[i])
-                     else:
-                      ppform += ''.join(i)
+                        ppform += ''.join(chazi[i])
+                    else:
+                        ppform += ''.join(i)
             #将其形成键值对放入字典
             dict[ppform] = keywords
             #将其送入敏感词树建立函数
@@ -1957,9 +1957,9 @@ class DfaFilter(object):
 if __name__ == "__main__":
     #实例化对象
     x = DfaFilter()
-    x.GetSensitiveWords('words.txt')
+    x.GetSensitiveWords(sys.argv[1])
     #在python中默认的编码方式是 “ gbk ”，而Windows中的文件默认的编码方式是 “ utf-8 ”
-    OrgHandler = open('org.txt', encoding='utf-8')
+    OrgHandler = open(sys.argv[2], encoding='utf-8')
     linepos = 1
     empty_flag = 0
     # 一个空列表，用来暂时储存过滤结果
@@ -1984,7 +1984,7 @@ if __name__ == "__main__":
     OrgHandler.close()
     #将列表里的结果按顺序打印在输出文本中
     ret.append(str(total))
-    file = open("D:/pythonProject/031902213/ans.txt", 'w')
+    file = open(sys.argv[3], 'w')
     y=len(ret)-1
     file.write('total:')
     file.write(str(ret[y]))
