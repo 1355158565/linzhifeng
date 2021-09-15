@@ -1708,8 +1708,6 @@ SpecialCode=['`','1','2','3','4','5','6','7','8','9','0','-','=','[',']','\\','\
 dict = {}
 #检测出的敏感词总数，初始化为0
 total = 0
-#一个空列表，用来暂时储存过滤结果
-ret = []
 
 class DfaFilter(object):
     def __init__(self):
@@ -1796,7 +1794,7 @@ class DfaFilter(object):
                 tree[self.delimit] = 0
 
 
-    def FilterSensitiveWords(self, message, linepos):
+    def FilterSensitiveWords(self, message, linepos, ret):
         #起始位置
         start = 0
         #一行的敏感词总数
@@ -1922,10 +1920,10 @@ class DfaFilter(object):
                     normal_step += 1
             start += 1
         #返回敏感词数量
-        return part_total
+        return part_total,ret
 
     #针对拆分偏旁进行过滤
-    def SplitSideFilter(self,message,linepos):
+    def SplitSideFilter(self,message,linepos,ret):
         start = 0
         part_total = 0
         message = message.lower()
@@ -1951,23 +1949,25 @@ class DfaFilter(object):
                 else:
                     break
             start += 1
-        return part_total
+        return part_total,ret
 
 if __name__ == "__main__":
     #实例化对象
     x = DfaFilter()
-    x.GetSensitiveWords(sys.argv[1])
+    x.GetSensitiveWords('words.txt')
     #在python中默认的编码方式是 “ gbk ”，而Windows中的文件默认的编码方式是 “ utf-8 ”
-    OrgHandler = open(sys.argv[2], encoding='utf-8')
+    OrgHandler = open('org.txt', encoding='utf-8')
     linepos = 1
     empty_flag = 0
+    # 一个空列表，用来暂时储存过滤结果
+    ret = []
     while True:
         # 获取文件的每行内容
         line = OrgHandler.readline().rstrip('\n')
         #整个文本的敏感词总数
-        result=x.FilterSensitiveWords(line, linepos)
+        result,ret=x.FilterSensitiveWords(line, linepos, ret)
         total += result
-        result = x.SplitSideFilter(line,linepos)
+        result,ret= x.SplitSideFilter(line, linepos, ret)
         total +=result
         #行数++
         linepos += 1
@@ -1981,7 +1981,7 @@ if __name__ == "__main__":
     OrgHandler.close()
     #将列表里的结果按顺序打印在输出文本中
     ret.append(str(total))
-    file = open(sys.argv[3], 'w')
+    file = open("D:/pythonProject/031902213/ans.txt", 'w')
     y=len(ret)-1
     file.write('total:')
     file.write(str(ret[y]))
