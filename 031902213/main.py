@@ -1729,8 +1729,11 @@ class DfaFilter(object):
             for i in keywords:
                 #过滤字母
                 if i not in zimubiao:
-                    #将敏感字在拆分偏旁字典中查询拆分后的部分
-                    ppform += ''.join(chazi[i])
+                    if i in chazi:
+                      #将敏感字在拆分偏旁字典中查询拆分后的部分
+                      ppform += ''.join(chazi[i])
+                     else:
+                      ppform += ''.join(i)
             #将其形成键值对放入字典
             dict[ppform] = keywords
             #将其送入敏感词树建立函数
@@ -1880,7 +1883,7 @@ class DfaFilter(object):
                             #找到错误文本对应的正确文本
                             true = dict[normal_ret+mirror_image_ret]
                             # 将结果写入ret列表中
-                            ret.append('line'+str(linepos)+':'+'<'+true+'>'+message[front:back+1])
+                            ret.append('Line'+str(linepos)+':'+'<'+true+'>'+message[front:back+1])
                             #停止遍历
                             stop = 1
                             break
@@ -1945,7 +1948,7 @@ class DfaFilter(object):
                         back = start
                         part_total += 1
                         true = dict[Ret]
-                        ret.append('line' + str(linepos) + ':' + '<' + true + '>' + message[front:back + 1])
+                        ret.append('Line' + str(linepos) + ':' + '<' + true + '>' + message[front:back + 1])
                 else:
                     break
             start += 1
