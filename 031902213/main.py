@@ -1888,7 +1888,7 @@ class DfaFilter(object):
                             #找到错误文本对应的正确文本
                             true = dict[normal_ret+mirror_image_ret]
                             # 将结果写入ret列表中
-                            ret.append('Line'+str(linepos)+':'+'<'+true+'>'+message[front:back+1])
+                            ret.append('Line'+str(linepos)+': <'+true+'> '+message[front:back+1])
                             #停止遍历
                             stop = 1
                             break
@@ -1903,7 +1903,7 @@ class DfaFilter(object):
                                 back = start
                                 part_total += 1
                                 true = dict[normal_ret]
-                                ret.append('line' + str(linepos) + ':' + '<' + true + '>' + message[front:back+1])
+                                ret.append('line' + str(linepos) + ': <' + true + '> ' + message[front:back+1])
                                 #重置分支状态
                                 Branch_flag = 0
                                 #停止遍历
@@ -1953,7 +1953,7 @@ class DfaFilter(object):
                         back = start
                         part_total += 1
                         true = dict[Ret]
-                        ret.append('Line' + str(linepos) + ':' + '<' + true + '>' + message[front:back + 1])
+                        ret.append('Line' + str(linepos) + ': <' + true + '> ' + message[front:back + 1])
                 else:
                     break
             start += 1
@@ -1989,9 +1989,9 @@ if __name__ == "__main__":
     OrgHandler.close()
     #将列表里的结果按顺序打印在输出文本中
     ret.append(str(total))
-    file = open(sys.argv[3], 'w')
+    file = open(sys.argv[3], 'w', encoding='utf-8')
     y=len(ret)-1
-    file.write('total:')
+    file.write('total: ')
     file.write(str(ret[y]))
     file.write('\n')
     for i in range(len(ret)-1):
